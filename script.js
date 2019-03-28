@@ -24,7 +24,7 @@ image.onmouseover = function(event){
 image.onclick = function(event){
   image.style.display = 'none';
 };
-//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*Task-2
 Дополнительно ( 4 балла )
 Создайте коллекцию вложенных друг в друга html-элементов с обработчиками событий click, mouseover, mouseout
@@ -59,15 +59,44 @@ function clickHandler ( event ) {
 При наступлении события click элемент должен быть удален
 
 При наведении мышки на элемент должна появляться подсказка с его именем ( "first", "second", "third", "fourth" )*/
+var collection = [];
 
+function over ( event ) {
+    event.target.style.backgroundColor = '#ffff0050';
+};
+function out ( event ) {
+    event.target.style.backgroundColor = '#ff00ff50';
+};
+function clickHandler ( event ) { 
+    event.target.children.length ? event.target.parentElement.appendChild(event.target.children[0]): null;
+    event.target.remove();
+};
 
-
-
-// in the process.........
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
+[ "first", "second", "third", "fourth" ].forEach (
+   function ( tag, index, arr  ) {
+     index === 0 ?  
+       (elem = document.body.appendChild(document.createElement('div')),
+       elem.style = `
+    background-color: #ff00ff50;
+    border: dotted 1px yellow;
+    width: ${elem.parentElement.offsetWidth - 60}px;
+    height: ${elem.parentElement.offsetHeight - 60}px;
+`)
+     : (elem = document.getElementById(arr[index - 1]).appendChild(document.createElement('div')),
+       elem.style = `
+    background-color: #ff00ff50;
+    border: dotted 1px yellow;
+    width: ${elem.parentElement.offsetWidth - 60}px;
+    height: ${elem.parentElement.offsetHeight - 60}px;
+`)
+ elem.id = elem.title = tag;
+      elem.addEventListener ('mouseover', over );
+      elem.addEventListener('mouseout', out);
+      elem.addEventListener('click',clickHandler);                         
+      collection.push(elem);
+    },collection
+);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*Task-3
 Дополнительно ( 5 баллов )
 Условия предыдущего задания изменить так:
@@ -88,7 +117,41 @@ function clickHandler ( event ) {
     ...
 )
 :warning: при удалении элемента его потомки должны оставаться*/
+var collection = [];
 
+function enter ( event ) {
+    event.target.style.backgroundColor = '#ffff0050';
+};
+function leave ( event ) {
+    event.target.style.backgroundColor = '#ff00ff50';
+};
+function clickHandler ( event ) { 
+    event.target.children.length ? event.target.parentElement.appendChild(event.target.children[0]): null;
+    event.target.remove();
+};
 
-
-// in the process.........
+[ 1, 2, 3, 4, 5, 6, 7 ].forEach (
+   function ( tag, index, arr  ) {
+     index === 0 ?  
+       (elem = document.body.appendChild(document.createElement('div')),
+       elem.style = `
+    background-color: #ff00ff50;
+    border: dotted 1px yellow;
+    width: ${elem.parentElement.offsetWidth - 60}px;
+    height: ${elem.parentElement.offsetHeight - 60}px;
+`)
+     : (elem = document.getElementById(arr[index - 1]).appendChild(document.createElement('div')),
+       elem.style = `
+    background-color: #ff00ff50;
+    border: dotted 1px yellow;
+    width: ${elem.parentElement.offsetWidth - 60}px;
+    height: ${elem.parentElement.offsetHeight - 60}px;
+`)
+ elem.id = elem.title = tag;
+      elem.addEventListener ('mouseover', enter );
+      elem.addEventListener('mouseout', leave);
+      elem.addEventListener('click',clickHandler);                 
+      collection.push(elem);
+    },collection
+);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
