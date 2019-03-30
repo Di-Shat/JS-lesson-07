@@ -68,35 +68,28 @@ function out ( event ) {
     event.target.style.backgroundColor = '#ff00ff50';
 };
 function clickHandler ( event ) { 
-    event.target.children.length ? event.target.parentElement.appendChild(event.target.children[0]): null;
     event.target.remove();
 };
-
 [ "first", "second", "third", "fourth" ].forEach (
    function ( tag, index, arr  ) {
-     index === 0 ?  
-       (elem = document.body.appendChild(document.createElement('div')),
-       elem.style = `
-    background-color: #ff00ff50;
-    border: dotted 1px yellow;
-    width: ${elem.parentElement.offsetWidth - 60}px;
-    height: ${elem.parentElement.offsetHeight - 60}px;
-`)
-     : (elem = document.getElementById(arr[index - 1]).appendChild(document.createElement('div')),
-       elem.style = `
-    background-color: #ff00ff50;
-    border: dotted 1px yellow;
-    width: ${elem.parentElement.offsetWidth - 60}px;
-    height: ${elem.parentElement.offsetHeight - 60}px;
-`)
- elem.id = elem.title = tag;
-      elem.addEventListener ('mouseover', over );
-      elem.addEventListener('mouseout', out);
-      elem.addEventListener('click',clickHandler);                         
-      collection.push(elem);
-    },collection
-);
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     var x = (index ? collection[index - 1] : 
+   document.body).appendChild(
+   document.createElement('div')
+    );
+   collection.push(x);
+   x.style = `
+       background-color: #ff00ff50;
+       border: dotted 1px yellow;
+       width: ${400 - index * 50}px;
+       height: ${400 - index * 50}px;
+    `
+    x.title = tag;
+    x.onmouseover = over;
+    x.onmouseout = out;
+    x.onclick = clickHandler;
+   }
+
+)//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*Task-3
 Дополнительно ( 5 баллов )
 Условия предыдущего задания изменить так:
@@ -126,32 +119,29 @@ function leave ( event ) {
     event.target.style.backgroundColor = '#ff00ff50';
 };
 function clickHandler ( event ) { 
-    event.target.children.length ? event.target.parentElement.appendChild(event.target.children[0]): null;
+    event.stopPropagation();
+    event.target.parentNode.appendChild ( event.target.firstChild )
     event.target.remove();
 };
 
 [ 1, 2, 3, 4, 5, 6, 7 ].forEach (
    function ( tag, index, arr  ) {
-     index === 0 ?  
-       (elem = document.body.appendChild(document.createElement('div')),
-       elem.style = `
-    background-color: #ff00ff50;
-    border: dotted 1px yellow;
-    width: ${elem.parentElement.offsetWidth - 60}px;
-    height: ${elem.parentElement.offsetHeight - 60}px;
-`)
-     : (elem = document.getElementById(arr[index - 1]).appendChild(document.createElement('div')),
-       elem.style = `
-    background-color: #ff00ff50;
-    border: dotted 1px yellow;
-    width: ${elem.parentElement.offsetWidth - 60}px;
-    height: ${elem.parentElement.offsetHeight - 60}px;
-`)
- elem.id = elem.title = tag;
-      elem.addEventListener ('mouseover', enter );
-      elem.addEventListener('mouseout', leave);
-      elem.addEventListener('click',clickHandler);                 
-      collection.push(elem);
-    },collection
-);
+     var x = (index ? collection[index - 1] : 
+   document.body).appendChild(
+   document.createElement('div')
+    );
+   collection.push(x);
+   x.style = `
+       background-color: #ff00ff50;
+       border: dotted 1px yellow;
+       width: ${400 - index * 50}px;
+       height: ${400 - index * 50}px;
+    `
+    x.title = tag;
+    x.onmouseover = enter;
+    x.onmouseout = leave;
+    x.onclick = clickHandler;
+   }
+
+)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
